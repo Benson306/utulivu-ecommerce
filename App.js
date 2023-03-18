@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/screens/Login';
+import AuthStack from './src/stacks/AuthStack';
 
 export default function App() {
   return (
-   <Login />
+   <AuthStack />
   );
 }
 
