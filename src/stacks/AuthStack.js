@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import Login from '../screens/Login';
@@ -8,8 +7,7 @@ export default function AuthStack() {
     const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
-        <Stack.Navigator initialRouteName='Register'>
+        <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen
                 name="Login"
                 component={Login}
@@ -25,6 +23,5 @@ export default function AuthStack() {
                 }}
             />
         </Stack.Navigator>
-    </NavigationContainer>
   )
 }

@@ -1,7 +1,8 @@
 import { Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Keyboard, Alert, ActivityIndicator } from 'react-native'
 import * as yup from 'yup'
+import { AuthContext } from '../context/AuthContext'
 import ApiLink from '../utils/ApiLink'
 
 const loginSchema = yup.object({
@@ -12,6 +13,8 @@ const loginSchema = yup.object({
 export default function Login( { navigation }) {
 
     const link = ApiLink();
+
+    const { login } = useContext(AuthContext); 
 
     const [pending, setPending] = useState(false)
     
@@ -39,9 +42,7 @@ export default function Login( { navigation }) {
                     { text: 'dismiss', onPress: ()=>{} }
                 ])
             }else{
-                Alert.alert('Success','Logged In',[
-                    { text: 'OK', onPress: ()=>{} }
-                ])
+                login(values.email)
             }
             setPending(false);
         })
