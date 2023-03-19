@@ -14,11 +14,14 @@ export default function HomeStack() {
                 headerShown: true,
                 headerStyle:{
                     backgroundColor:'#cfd6fc'
-                  },
-                  headerTitleStyle:{
+                },
+                headerTitleStyle:{
                     color:'#030c3b',
-                    fontWeight:'bold'
-                  },
+                    fontWeight:'bold',
+                    alignSelf:'center'                  
+                },
+                headerTitle:'Utulivu Ecommerce',
+                headerTitleAlign:'center'
             }}
         />
         <Stack.Screen
@@ -28,11 +31,13 @@ export default function HomeStack() {
                 headerShown: true,
                 headerStyle:{
                     backgroundColor:'#cfd6fc'
-                  },
-                  headerTitleStyle:{
+                },
+                headerTitleStyle:{
                     color:'#030c3b',
                     fontWeight:'bold'
-                  },
+                },
+                headerTitle:'Preview Product',
+                headerTitleAlign:'center'
             }}
         />
     </Stack.Navigator>

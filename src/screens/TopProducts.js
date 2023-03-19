@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import ApiLink from '../utils/ApiLink';
 
 export default function TopProducts({ navigation }) {
@@ -32,6 +32,19 @@ export default function TopProducts({ navigation }) {
 
 
   return (
+    <View>
+        {
+            
+        isPending 
+            
+            ? 
+
+        <View style={{flex:1, justifyContent:'center', alignItems:'center', marginTop:30 }}>
+            <ActivityIndicator size='large'  color="#009999"/>
+        </View> 
+        
+        :
+            
         <ScrollView style={{marginBottom:200}}>
             <View style={styles.row}>
             {
@@ -56,7 +69,10 @@ export default function TopProducts({ navigation }) {
 
             }
             </View>
-        </ScrollView>      
+        </ScrollView>   
+   
+    }   
+    </View>
 )
 }
 
