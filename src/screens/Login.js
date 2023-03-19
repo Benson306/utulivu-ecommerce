@@ -79,7 +79,7 @@ export default function Login( { navigation }) {
         >
             {(props)=>(
                 <View style={styles.form}>
-                    <Text style={{margin: 5, fontSize:30, fontWeight:'900'}}>Log-in</Text>
+                    <Text style={{margin: 5, fontSize:30, fontWeight:'900', alignSelf:'center'}}>Log-in</Text>
 
                     <Text style={styles.label}>Email</Text>
 
