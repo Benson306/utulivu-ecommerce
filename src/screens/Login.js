@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Keyboard, Alert, ActivityIndicator } from 'react-native'
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Keyboard, Alert, ActivityIndicator, ScrollView } from 'react-native'
 import * as yup from 'yup'
 import { AuthContext } from '../context/AuthContext'
 import ApiLink from '../utils/ApiLink'
@@ -58,6 +58,8 @@ export default function Login( { navigation }) {
     }
   return (
     <View style={styles.container}>
+        <ScrollView automaticallyAdjustKeyboardInsets={true} showsVerticalScrollIndicator={false}>
+       
         {
             
         pending ?
@@ -123,6 +125,7 @@ export default function Login( { navigation }) {
 
         </Formik>
          }
+        </ScrollView>
     </View>
   )
 }
