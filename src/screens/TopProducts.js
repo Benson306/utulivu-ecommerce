@@ -53,7 +53,7 @@ export default function TopProducts({ navigation }) {
                 :
 
                 products.map(product =>(
-                <TouchableOpacity onPress={()=> navigation.navigate('Preview', {id: product._id}) }>
+                <TouchableOpacity onPress={()=> navigation.navigate('Preview', {id: product._id}) } key={product._id}>
                 <View style={styles.row}>
                     <View style={styles.card} key={product._id}>
                         <View style={styles.cardContent}>
