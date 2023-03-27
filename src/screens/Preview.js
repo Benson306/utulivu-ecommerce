@@ -2,7 +2,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useReducer, useState } from 'react'
 import { ActivityIndicator, Alert, Image, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import ApiLink from '../utils/ApiLink';
-import { initialState, reducer } from '../utils/Reducer';
+
+import useCart from '../context/CartContext';
 
 export default function Preview({route, navigation}) {
     const { id } = route.params;
@@ -34,40 +35,42 @@ export default function Preview({route, navigation}) {
 
   },[])
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product) =>{
-    dispatch({type:'ADD_TO_CART', payload: product})
-    // setLoading(true);
-    //     fetch(`${link}/add_cart`,{
-    //         credentials:'include',
-    //         withCredentials: true, 
-    //         proxy: true,
-    //         method:'POST',
-    //         headers: {'Content-Type':'application/json'},
-    //         body: JSON.stringify({ item_id: id })
-    //     })
-    //     .then((res)=>{
-    //         return res.json();
-    //     })
-    //     .then((res)=>{
-    //       if(res === 'sent'){
+    addToCart(product);
+  //   console.log('preview')
+  //   dispatch({type:'ADD_TO_CART', payload: product})
+  //   // setLoading(true);
+  //   //     fetch(`${link}/add_cart`,{
+  //   //         credentials:'include',
+  //   //         withCredentials: true, 
+  //   //         proxy: true,
+  //   //         method:'POST',
+  //   //         headers: {'Content-Type':'application/json'},
+  //   //         body: JSON.stringify({ item_id: id })
+  //   //     })
+  //   //     .then((res)=>{
+  //   //         return res.json();
+  //   //     })
+  //   //     .then((res)=>{
+  //   //       if(res === 'sent'){
 
-    //         Alert.alert('Success','Product Has Been Added To Cart',[
-    //             { text: 'OK', onPress: ()=>{} }
-    //         ])
+  //   //         Alert.alert('Success','Product Has Been Added To Cart',[
+  //   //             { text: 'OK', onPress: ()=>{} }
+  //   //         ])
 
-    //       }else{
-    //         Alert.alert('Failed','Product exists in the Cart',[
-    //             { text: 'OK', onPress: ()=>{} }
-    //         ])
-    //       }
-    //       setLoading(false);
-    //     })
-    //     .catch((err)=>{
-    //           console.log('error');
-    //           setLoading(false);
-    //     })
+  //   //       }else{
+  //   //         Alert.alert('Failed','Product exists in the Cart',[
+  //   //             { text: 'OK', onPress: ()=>{} }
+  //   //         ])
+  //   //       }
+  //   //       setLoading(false);
+  //   //     })
+  //   //     .catch((err)=>{
+  //   //           console.log('error');
+  //   //           setLoading(false);
+  //   //     })
       
   }
 
