@@ -1,22 +1,62 @@
 import { createContext, useContext, useReducer } from "react";
+import { Alert } from "react-native";
 import reducer, { initialState } from "../utils/reducer";
 
 const CartContext =  createContext(initialState);
 
-export const CartProvider = ({ children }) =>{
+export const CartProvider = ({ children, navigation }) =>{
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const addToCart = (product) =>{
-        const updatedCart = state.products.concat(product);
 
-        updatedPrice(updatedCart);
+        const itemIndex = state.products.findIndex(item => item._id === product._id);
 
-        dispatch({
-            type:"ADD_TO_CART",
-            payload: {
-                products: updatedCart
+        if(itemIndex >= 0){
+            state.products[itemIndex].quantity += 1;
+
+            updatedPrice(state.products);
+            
+        }else{
+            let newProduct = {...product, quantity: 1}
+
+            const updatedCart = state.products.concat(newProduct);
+    
+            updatedPrice(updatedCart);
+    
+            dispatch({
+                type:"ADD_TO_CART",
+                payload: {
+                    products: updatedCart
+                }
+            })
+        }
+
+        Alert.alert('Success','Product Has Been Added To Cart',[
+            { text: 'OK', onPress: ()=>{} }
+        ])
+        
+    }
+
+    const addQuantity = (id) =>{
+        const itemIndex = state.products.findIndex(item => item._id === id);
+
+        if(itemIndex >= 0){
+            state.products[itemIndex].quantity += 1;
+        }
+
+        updatedPrice(state.products);
+    }
+
+    const minusQuantity = (id) =>{
+        const itemIndex = state.products.findIndex(item => item._id === id);
+
+        if(itemIndex >= 0){
+            if(state.products[itemIndex].quantity > 1){
+                state.products[itemIndex].quantity -= 1;
             }
-        })
+        }
+
+        updatedPrice(state.products);
     }
 
     const removeFromCart = (product) =>{
@@ -37,7 +77,7 @@ export const CartProvider = ({ children }) =>{
     const updatedPrice = (products) =>{
         let total = 0;
 
-        products.forEach(product => total += Number(product.price))
+        products.forEach(product => total += (Number(product.price) * product.quantity))
 
         dispatch({
             type: "UPDATE_PRICE",
@@ -51,6 +91,8 @@ export const CartProvider = ({ children }) =>{
         total: state.total,
         products: state.products,
         addToCart,
+        minusQuantity,
+        addQuantity,
         removeFromCart
     }
 

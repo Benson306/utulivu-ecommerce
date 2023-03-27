@@ -1,47 +1,30 @@
-import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
-import { Formik } from 'formik';
-import React, { useCallback, useEffect, useReducer, useState } from 'react'
-import { Text, View, ActivityIndicator, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import React from 'react'
+import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native'
 import ApiLink from '../utils/ApiLink';
 
 import useCart from '../context/CartContext';
 
 export default function Cart() {
 
-    const { products }  = useCart();
+    const { products, addQuantity, minusQuantity, total }  = useCart();
 
     const link = ApiLink();
 
     const { removeFromCart } = useCart();
 
     const handleRemove = (product) =>{
-
         removeFromCart(product)
+    }
 
-        //     fetch(`${link}/remove_cart/`+id,{
-        //         withCredentials:true,
-        //         proxy: true,
-        //         credentials: 'include',
-        //         method: 'DELETE',
-        //         headers: {'Content-Type':'application/json'}
-        //     })
-        //     .then((res)=>{
-        //         return res.json();
-        //     })
-        //     .then(res =>{
-        //         if(res === 'deleted'){
-        //             Alert.alert('Success','Product Has Been Removed From the Cart',[
-        //                 { text: 'OK', onPress: ()=>{} }
-        //             ])
-        //             setPending(false);
-        
-        //         }
-        //     })
-        //     setPending(false);
-            // getTotal();
-      }
-      
+    const handleAddQuantity = (id) =>{
+        addQuantity(id);
+    }
+
+    const handleMinusQuantity = (id) =>{
+        minusQuantity(id);
+    }
+
 
   return (
     <ScrollView>
@@ -70,26 +53,20 @@ export default function Cart() {
                                 
                                 <TouchableOpacity 
                                     style={{borderWidth:1, borderRadius:4, padding:2,alignSelf:'center', backgroundColor:'#cfd6fc'}}
-                                    // onPress={()=>{
-                                    //     if(data.find(dt => dt.item_id === product._id).quantity > 1){
-                                    //         adjustQuantity(product._id, data.find(dt => dt.item_id === product._id).quantity - 1 );
-                                    //         getTotal();
-                                    //     }
-                                        
-                                    // }}
+                                    onPress={()=>{
+                                        handleMinusQuantity(product._id);
+                                    }}
                                 >
                                     <AntDesign name="minus" size={24} color="black" />
                                 </TouchableOpacity>
                                 <View>
-                                    {/* <Text style={{padding:10, alignSelf:'center'}}>{data.find(dt => dt.item_id === product._id).quantity}</Text>    */}
-                                    <Text style={{padding:10, alignSelf:'center'}}>{product.cartQuantity}</Text>
+                                    <Text style={{padding:10, alignSelf:'center'}}>{product.quantity}</Text>
                                 </View>
                                 <TouchableOpacity 
                                 style={{borderWidth:1, borderRadius:5, padding:2,alignSelf:'center', backgroundColor:'#cfd6fc'}}
-                                // onPress={()=>{
-                                //     adjustQuantity(product._id, data.find(dt => dt.item_id === product._id).quantity + 1 )
-                                //     getTotal();
-                                // }}
+                                onPress={()=>{
+                                    handleAddQuantity(product._id);
+                                }}
                                 >
                                     <Ionicons name="add" size={24} color="black" />
                                 </TouchableOpacity>
@@ -103,7 +80,7 @@ export default function Cart() {
         products.length !== 0 && 
         <View style={{backgroundColor:'#cfd6fc', alignItems:'center', padding:20, marginTop:10, height:'100%'}}>
             <Text style={{fontWeight:'bold', fontSize:20}}>Total Cost of Goods In Cart:</Text>
-            <Text style={{fontSize:18}}>ksh.</Text>
+            <Text style={{fontSize:18}}>ksh. {total}</Text>
             <TouchableOpacity style={{borderWidth:1, padding:12, borderColor:'gray' ,width:200, alignItems:'center', marginTop:20, borderRadius:15}}>
                 <Text style={{color:'#030c3b', fontWeight:'bold', fontSize:16}}>CHECKOUT</Text>
             </TouchableOpacity>

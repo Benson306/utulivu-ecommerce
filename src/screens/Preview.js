@@ -38,40 +38,10 @@ export default function Preview({route, navigation}) {
   const { addToCart } = useCart();
 
   const handleAddToCart = (product) =>{
+    setLoading(true);
     addToCart(product);
-  //   console.log('preview')
-  //   dispatch({type:'ADD_TO_CART', payload: product})
-  //   // setLoading(true);
-  //   //     fetch(`${link}/add_cart`,{
-  //   //         credentials:'include',
-  //   //         withCredentials: true, 
-  //   //         proxy: true,
-  //   //         method:'POST',
-  //   //         headers: {'Content-Type':'application/json'},
-  //   //         body: JSON.stringify({ item_id: id })
-  //   //     })
-  //   //     .then((res)=>{
-  //   //         return res.json();
-  //   //     })
-  //   //     .then((res)=>{
-  //   //       if(res === 'sent'){
-
-  //   //         Alert.alert('Success','Product Has Been Added To Cart',[
-  //   //             { text: 'OK', onPress: ()=>{} }
-  //   //         ])
-
-  //   //       }else{
-  //   //         Alert.alert('Failed','Product exists in the Cart',[
-  //   //             { text: 'OK', onPress: ()=>{} }
-  //   //         ])
-  //   //       }
-  //   //       setLoading(false);
-  //   //     })
-  //   //     .catch((err)=>{
-  //   //           console.log('error');
-  //   //           setLoading(false);
-  //   //     })
-      
+    setLoading(false); 
+    navigation.navigate("Home")
   }
 
   return (
