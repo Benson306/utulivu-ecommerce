@@ -1,17 +1,14 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React from 'react'
 import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native'
-import ApiLink from '../utils/ApiLink';
-
 import useCart from '../context/CartContext';
+import ApiLink from '../utils/ApiLink';
 
 export default function Cart({ navigation }) {
 
-    const { products, addQuantity, minusQuantity, total }  = useCart();
+    const { products, addQuantity, minusQuantity, removeFromCart, total }  = useCart();
 
     const link = ApiLink();
-
-    const { removeFromCart } = useCart();
 
     const handleRemove = (product) =>{
         removeFromCart(product)
@@ -33,6 +30,10 @@ export default function Cart({ navigation }) {
   return (
     <ScrollView>
    <View style={{marginTop:10}}>
+   {
+                    products.length !== 0 && 
+    <Text style={{marginLeft: 20, fontSize: 20, fontWeight:'bold', color:'gray'}}>{products.length} item(s)</Text>
+   }
             <View style={styles.card}>
                 {
                     products.length == 0 && <Text style={{padding:20, alignSelf:'center', fontWeight:'bold', fontSize:18}}>Cart is Empty</Text>
@@ -83,8 +84,8 @@ export default function Cart({ navigation }) {
    {
         products.length !== 0 && 
         <View style={{backgroundColor:'#cfd6fc', alignItems:'center', padding:20, marginTop:10, height:'100%'}}>
-            <Text style={{fontWeight:'bold', fontSize:20}}>Total Cost of Goods In Cart:</Text>
-            <Text style={{fontSize:18}}>ksh. {total}</Text>
+            <Text style={{fontWeight:'bold', fontSize:18}}>Cart Total:</Text>
+            <Text style={{fontSize:16}}>ksh. {total}</Text>
             <TouchableOpacity 
             style={{borderWidth:1, padding:12, borderColor:'gray' ,width:200, alignItems:'center', marginTop:20, borderRadius:15}}
             onPress={()=>{

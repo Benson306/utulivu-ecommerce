@@ -31,7 +31,7 @@ export default function CartStack(){
             component={OrderSummary}
             options={{
                 tabBarLabel:'Cart',
-                headerTitle:'Cart Summary',
+                headerTitle:'Checkout',
                 headerStyle:{
                  backgroundColor:'#cfd6fc'
                },
