@@ -5,7 +5,7 @@ import ApiLink from '../utils/ApiLink';
 
 import useCart from '../context/CartContext';
 
-export default function Cart() {
+export default function Cart({ navigation }) {
 
     const { products, addQuantity, minusQuantity, total }  = useCart();
 
@@ -23,6 +23,10 @@ export default function Cart() {
 
     const handleMinusQuantity = (id) =>{
         minusQuantity(id);
+    }
+
+    const handleCheckout = () =>{
+        navigation.navigate("Summary");
     }
 
 
@@ -81,7 +85,12 @@ export default function Cart() {
         <View style={{backgroundColor:'#cfd6fc', alignItems:'center', padding:20, marginTop:10, height:'100%'}}>
             <Text style={{fontWeight:'bold', fontSize:20}}>Total Cost of Goods In Cart:</Text>
             <Text style={{fontSize:18}}>ksh. {total}</Text>
-            <TouchableOpacity style={{borderWidth:1, padding:12, borderColor:'gray' ,width:200, alignItems:'center', marginTop:20, borderRadius:15}}>
+            <TouchableOpacity 
+            style={{borderWidth:1, padding:12, borderColor:'gray' ,width:200, alignItems:'center', marginTop:20, borderRadius:15}}
+            onPress={()=>{
+                handleCheckout();
+            }}
+            >
                 <Text style={{color:'#030c3b', fontWeight:'bold', fontSize:16}}>CHECKOUT</Text>
             </TouchableOpacity>
         </View>

@@ -1,9 +1,10 @@
 import { Entypo, FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
-import Cart from '../screens/Cart';
 import Home from '../screens/Home';
+import Orders from '../screens/Orders';
 import Profile from '../screens/Profile';
+import CartStack from './CartStack';
 import HomeStack from './HomeStack';
 
 export default function AppStack() {
@@ -31,19 +32,11 @@ export default function AppStack() {
             }}
           />
           <Tab.Screen 
-           name="Cart" 
-           component={Cart}
+           name="CartStack" 
+           component={CartStack}
            options={{
              tabBarLabel:'Cart',
-             headerTitle:'My Cart',
-             headerStyle:{
-              backgroundColor:'#cfd6fc'
-            },
-            headerTitleStyle:{
-              color:'#030c3b',
-              fontWeight:'bold'
-            },
-            headerTitleAlign:'center',
+             headerShown: false,
             tabBarIcon: ({}) =>(
                  <FontAwesome5 name="shopping-cart" size={22} color="#030c3b" />
              )
@@ -52,7 +45,7 @@ export default function AppStack() {
           />
           <Tab.Screen 
             name="Orders" 
-            component={Home}
+            component={Orders}
             options={{
               tabBarLabel:'My Orders',
               tabBarIcon: ({}) =>(
