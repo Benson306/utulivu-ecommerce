@@ -87,13 +87,43 @@ export const CartProvider = ({ children, navigation }) =>{
         })
     }
 
+    const updateCounty = (county) =>{
+        dispatch({
+            type: "ADD_DELIVERY_COUNTY",
+            payload: {
+                deliveryCounty: county
+            }
+        })
+    }
+
+    const updatePickup = (pickup) =>{
+        dispatch({
+            type: "ADD_PICKUP_POINT",
+            payload: {
+                pickupPoint: pickup
+            }
+        })
+    }
+
+    const clearState = () => {
+        dispatch({
+            type: "CLEAR_STATE",
+            payload: {}
+        })
+    }
+
     const value = {
         total: state.total,
         products: state.products,
+        deliveryCounty: state.deliveryCounty,
+        pickupPoint: state.pickupPoint,
         addToCart,
         minusQuantity,
         addQuantity,
-        removeFromCart
+        removeFromCart,
+        updateCounty,
+        updatePickup,
+        clearState
     }
 
     return <CartContext.Provider value={value}>

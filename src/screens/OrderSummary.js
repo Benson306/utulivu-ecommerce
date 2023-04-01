@@ -6,7 +6,7 @@ import ApiLink from '../utils/ApiLink';
 
 export default function OrderSummary({ navigation }) {
 
-    const { products, addQuantity, minusQuantity, removeFromCart, total }  = useCart();
+    const { products, total }  = useCart();
 
     const link = ApiLink();
 
@@ -74,7 +74,7 @@ export default function OrderSummary({ navigation }) {
         .catch((err)=>{
             setPending(false);
         })
-        
+
         return () => abortController.abort();  
     },[county])
 
