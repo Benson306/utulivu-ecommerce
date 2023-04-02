@@ -1,20 +1,20 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator, ToastAndroid, Alert } from 'react-native'
 import useCart from '../context/CartContext';
 import ApiLink from '../utils/ApiLink';
 
 export default function OrderSummary({ navigation }) {
 
-    const { products, total }  = useCart();
+    const { products, total,  updateCounty, updatePickup, clearState }  = useCart(); 
 
     const link = ApiLink();
 
-    const [ county, setCounty ] = useState("");
+    const [ county, setCounty ] = useState(null);
     const [ counties, setCounties ] = useState([]);
 
     const [ pickup, setPickup ] = useState([]);
-    const [ location, setLocation ] = useState("");
+    const [ location, setLocation ] = useState(null);
 
     const [ loading , setLoading ] = useState(false)
     const [pending, setPending ] = useState(true);
@@ -74,9 +74,45 @@ export default function OrderSummary({ navigation }) {
         .catch((err)=>{
             setPending(false);
         })
+        
+        updateCounty(county);
 
-        return () => abortController.abort();  
+        return () => abortController.abort(); 
+
     },[county])
+
+    useEffect(()=>{
+        updatePickup(location);
+    },[location]);
+
+    const handleClick = () => {
+        if(location === null || county === null || location === "" || county === ""){
+            ToastAndroid.show('Select Delivery Location!', ToastAndroid.SHORT);   
+            return
+        }
+
+        fetch(`${process.env.REACT_APP_API_URL}/add_order`,{
+            credentials: 'include',
+            withCredentials: true,
+            proxy: true,
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ products, total, deliveryCounty: county, pickupPoint: location })
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then(res =>{   
+
+            //localStorage.removeItem('state');
+
+            clearState();
+
+            Alert.alert('Success','Cart has been cleared. Your order Has Been Saved under My Order',[
+                { text: 'OK', onPress: ()=>{} }
+            ])           
+        })
+    }
 
   return (
     <ScrollView>
@@ -139,6 +175,7 @@ export default function OrderSummary({ navigation }) {
                                             setLocation(itemValue)
                                         }}
                                     >
+                                        <Picker.Item label='' value={''} />
                                     {
                                          pickup.map(cty => (
                                             <Picker.Item label={cty} value={cty} key={cty}/>
@@ -163,7 +200,10 @@ export default function OrderSummary({ navigation }) {
                     <Text style={{fontWeight:'bold'}}>Total:</Text>
                     <Text>{total + deliveryCharge}</Text>
                 </View>
-                <TouchableOpacity style={{width:300, alignSelf:'center', backgroundColor:'#030c3b', padding:10, marginBottom:10, borderRadius:20}}>
+                <TouchableOpacity 
+                style={{width:300, alignSelf:'center', backgroundColor:'#030c3b', padding:10, marginBottom:10, borderRadius:20}}
+                onPress={()=> handleClick()}
+                >
                     <Text style={{color:'white', alignSelf:'center'}}>Pay Ksh. {total + deliveryCharge }</Text>
                 </TouchableOpacity>
             </View>

@@ -1,5 +1,6 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native'
 import useCart from '../context/CartContext';
 import ApiLink from '../utils/ApiLink';
@@ -22,8 +23,25 @@ export default function Cart({ navigation }) {
         minusQuantity(id);
     }
 
+
     const handleCheckout = () =>{
-        navigation.navigate("Summary");
+        const getStoredState = async () => {
+            try {
+              const storedState = await AsyncStorage.getItem('state');
+              if (storedState !== null) {
+                return JSON.parse(storedState);
+              }
+            } catch (e) {
+              console.log(e);
+            }
+            return null;
+          };
+
+    
+            const storedState = getStoredState();
+
+          console.log(storedState)
+        //navigation.navigate("Summary");
     }
 
 
