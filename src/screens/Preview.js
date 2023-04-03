@@ -1,9 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect, useReducer, useState } from 'react'
-import { ActivityIndicator, Alert, Image, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import ApiLink from '../utils/ApiLink';
 
 import useCart from '../context/CartContext';
+import { SliderBox } from 'react-native-image-slider-box';
+
 
 export default function Preview({route, navigation}) {
     const { id } = route.params;
@@ -13,6 +15,7 @@ export default function Preview({route, navigation}) {
     const [pending , setPending] = useState(true);
 
     const [loading, setLoading] = useState(false)
+    const [images, setImages] = useState([]);
 
     useEffect(()=>{
 
@@ -26,10 +29,12 @@ export default function Preview({route, navigation}) {
       })
       .then((res)=>{
           setProduct(res);
+
+          setImages([`${link}/images/${res.preview1}`, `${link}/images/${res.preview2}`, `${link}/images/${res.preview3}`, `${link}/images/${res.preview4}` ]);
+
           setPending(false);
       })
       .catch((err)=>{
-          console.log(err)
           setPending(false);
       })
 
@@ -54,14 +59,13 @@ export default function Preview({route, navigation}) {
           </View>
           :
           <View>
-            <Image source={{uri: `${link}/images/${product.preview1}`}} style={{width: 330, height: 240, objectFit:'scale-down', alignSelf: 'center',marginTop:5, alignSelf:'center'}}/>
-            <View style={{flexDirection:'row', justifyContent:'space-evenly', marginHorizontal:40}}>
-              <Image source={{uri: `${link}/images/${product.preview1}`}} style={{width: 50, height: 50, objectFit:'scale-down', alignSelf: 'center',marginTop:5, alignSelf:'center'}}/>
-              <Image source={{uri: `${link}/images/${product.preview2}`}} style={{width: 50, height: 50, objectFit:'scale-down', alignSelf: 'center',marginTop:5, alignSelf:'center'}}/>
-              <Image source={{uri: `${link}/images/${product.preview3}`}} style={{width: 50, height: 50, objectFit:'scale-down', alignSelf: 'center',marginTop:5, alignSelf:'center'}}/>
-              <Image source={{uri: `${link}/images/${product.preview4}`}} style={{width: 50, height: 50, objectFit:'scale-down', alignSelf: 'center',marginTop:5, alignSelf:'center'}}/>
+            {/* Slider */}
+            <View style={{backgroundColor:'white'}}>
+              <SliderBox images={images} dotStyle={{}} dotColor="orange"  imageLoadingColor="orange" resizeMethod={'resize'} resizeMode={"contain"} imageComponentStyle={{objectFit:'scale-down'}} inactiveDotColor="#cfd6fc"  />
+              
             </View>
-
+            
+  
             <View style={{padding:20}}>
               <View style={{flexDirection:'row'}}>
                 <View style={{width:260}}>
