@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Cart from "../screens/Cart";
+import ConfirmPayment from "../screens/ConfirmPayment";
 import OrderSummary from "../screens/OrderSummary";
 import Payment from "../screens/Payment";
 
@@ -57,7 +58,25 @@ export default function CartStack(){
                  color:'#030c3b',
                  fontWeight:'bold'
                },
-               headerLeft: null,
+               headerBackVisible: false,
+               headerTitleAlign:'center',
+              }}
+            />
+
+          <Stack.Screen 
+            name = "ConfirmPayment"
+            component={ConfirmPayment}
+            options={{
+                tabBarLabel:'Cart',
+                headerTitle:'Confirm Payment',
+                headerStyle:{
+                 backgroundColor:'#cfd6fc'
+               },
+               headerTitleStyle:{
+                 color:'#030c3b',
+                 fontWeight:'bold'
+               },
+               headerBackVisible: false,
                headerTitleAlign:'center',
               }}
             />

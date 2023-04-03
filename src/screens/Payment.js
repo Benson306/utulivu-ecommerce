@@ -57,7 +57,9 @@ const Payment = ({ navigation, route}) => {
         })
         .then((res)=>{
             Alert.alert('Success','MPESA payment request has been sent to your number. Enter PIN to proceed',[
-                { text: 'OK', onPress: ()=>{} }
+                { text: 'OK', onPress: ()=>{
+                    navigation.navigate('ConfirmPayment',{id: id})
+                } }
             ])
             setPending(false);
         })
@@ -92,8 +94,17 @@ const Payment = ({ navigation, route}) => {
                             >
                         { !pending && <Text style={{color:'white', alignSelf:'center'}}>Pay</Text>}
                         { pending && <Text style={{color:'white', alignSelf:'center'}}>Loading ....</Text> }
-                    </TouchableOpacity> 
+                    </TouchableOpacity>
         }
+         
+         <TouchableOpacity
+            style={{borderWidth:1, borderColor: '#030c3b', width:150, borderRadius: 25,alignSelf:'center', marginTop:10, marginBotton: 20, padding:10}}
+            onPress={()=>{
+                navigation.navigate('Home');
+            }}
+         >
+            <Text style={{color:'#030c3b', alignSelf:'center'}}>Cancel Payment</Text>
+         </TouchableOpacity>
     </ScrollView>
     </View> );
 }
