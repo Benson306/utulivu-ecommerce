@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { Alert } from "react-native";
 import reducer, { initialState } from "../utils/reducer";
 
@@ -8,6 +8,16 @@ const CartContext =  createContext(initialState);
 
 export const CartProvider = ({ children, navigation }) =>{
     const [state, dispatch] = useReducer(reducer, initialState);
+    
+    useEffect(() => {
+        const fetchCart = async () => {
+          const storedState = await AsyncStorage.getItem('state');
+          if (storedState) {
+            dispatch({ type: 'SET_STATE', payload: JSON.parse(storedState) });
+          }
+        };
+        fetchCart();
+      }, []);
 
     const addToCart = (product) =>{
 
@@ -105,10 +115,6 @@ export const CartProvider = ({ children, navigation }) =>{
                 pickupPoint: pickup
             }
         })
-
-        AsyncStorage.getItem('state').then(value => {
-            console.log('AsyncStorage value:', value);
-          });
     }
 
     const clearState = () => {

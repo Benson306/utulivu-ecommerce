@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator, ToastAndroid, Alert } from 'react-native'
 import useCart from '../context/CartContext';
 import ApiLink from '../utils/ApiLink';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function OrderSummary({ navigation }) {
 
@@ -91,7 +92,7 @@ export default function OrderSummary({ navigation }) {
             return
         }
 
-        fetch(`${process.env.REACT_APP_API_URL}/add_order`,{
+        fetch(`${link}/add_order`,{
             credentials: 'include',
             withCredentials: true,
             proxy: true,
@@ -102,17 +103,19 @@ export default function OrderSummary({ navigation }) {
         .then((res)=>{
             return res.json();
         })
-        .then(res =>{   
-
-            //localStorage.removeItem('state');
-
+        .then(res =>{
             clearState();
 
             Alert.alert('Success','Cart has been cleared. Your order Has Been Saved under My Order',[
                 { text: 'OK', onPress: ()=>{} }
-            ])           
+            ]) 
+            
+            navigation.navigate('Payment', { id: res._id})
         })
+        .catch(err => console.log(err))
     }
+
+
 
   return (
     <ScrollView>

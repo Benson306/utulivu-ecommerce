@@ -25,23 +25,7 @@ export default function Cart({ navigation }) {
 
 
     const handleCheckout = () =>{
-        const getStoredState = async () => {
-            try {
-              const storedState = await AsyncStorage.getItem('state');
-              if (storedState !== null) {
-                return JSON.parse(storedState);
-              }
-            } catch (e) {
-              console.log(e);
-            }
-            return null;
-          };
-
-    
-            const storedState = getStoredState();
-
-          console.log(storedState)
-        //navigation.navigate("Summary");
+        navigation.navigate("Summary");
     }
 
 

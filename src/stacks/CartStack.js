@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Cart from "../screens/Cart";
 import OrderSummary from "../screens/OrderSummary";
+import Payment from "../screens/Payment";
 
 
 
@@ -40,7 +41,24 @@ export default function CartStack(){
                  fontWeight:'bold'
                },
                headerTitleAlign:'center',
-                  
+              }}
+            />
+
+          <Stack.Screen 
+            name = "Payment"
+            component={Payment}
+            options={{
+                tabBarLabel:'Cart',
+                headerTitle:'Complete Order',
+                headerStyle:{
+                 backgroundColor:'#cfd6fc'
+               },
+               headerTitleStyle:{
+                 color:'#030c3b',
+                 fontWeight:'bold'
+               },
+               headerLeft: null,
+               headerTitleAlign:'center',
               }}
             />
         </Stack.Navigator>
