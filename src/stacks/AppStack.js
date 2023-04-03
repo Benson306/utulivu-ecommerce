@@ -6,6 +6,7 @@ import Orders from '../screens/Orders';
 import Profile from '../screens/Profile';
 import CartStack from './CartStack';
 import HomeStack from './HomeStack';
+import OrdersStack from './OrdersStack';
 
 export default function AppStack() {
     const Tab = createBottomTabNavigator();
@@ -45,13 +46,23 @@ export default function AppStack() {
           />
           <Tab.Screen 
             name="Orders" 
-            component={Orders}
+            component={OrdersStack}
             options={{
               tabBarLabel:'My Orders',
               tabBarIcon: ({}) =>(
                 <Octicons name="checklist" size={22} color="#030c3b" />
-              )
-                
+              ),
+              headerShown: true,
+                headerStyle:{
+                    backgroundColor:'#cfd6fc'
+                },
+                headerTitleStyle:{
+                    color:'#030c3b',
+                    fontWeight:'bold',
+                    alignSelf:'center'                  
+                },
+                headerTitle:'My Orders',
+                headerTitleAlign:'center'
             }}
           />
           <Tab.Screen 
