@@ -11,18 +11,16 @@ export default function Home({ navigation }) {
     const handleLogout = () => {
         logout();
     }
+    const handleChange = (text) =>{
+      navigation.navigate('Search');
+    }
   return (
     <View>
         <View style={styles.upperSection}>
-          <Formik 
-
-          
-          >
             <View style={styles.search}>
               <Feather name="search" size={24} color="black" />
-              <TextInput style={{backgroundColor:'white', padding: 10, width:300}} placeholder='Search...'/>
+              <TextInput onChangeText={handleChange} style={{backgroundColor:'white', padding: 10, width:300}} placeholder='Search...'/>
             </View>
-          </Formik>
         </View>
         <View>
          <Text style={{color:'#030c3b', fontWeight:'bold', fontSize:20, margin:10 }}>Top Products</Text>
