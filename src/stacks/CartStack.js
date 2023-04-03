@@ -11,7 +11,7 @@ export default function CartStack(){
     const Stack = createNativeStackNavigator();
 
     return (
-        <Stack.Navigator initialRouteName="Orders">
+        <Stack.Navigator initialRouteName="Cart">
             <Stack.Screen
             name = "Cart"
             component={Cart}

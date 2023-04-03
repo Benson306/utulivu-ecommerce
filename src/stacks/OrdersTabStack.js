@@ -4,7 +4,7 @@ import PendingOrders from '../screens/PendingOrders';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function OrdersStack() {
+export default function OrdersTabStack() {
   return (
     <Tab.Navigator initialRouteName='Completed'>
       <Tab.Screen 

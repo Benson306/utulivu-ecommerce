@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import ApiLink from "../utils/ApiLink";
 
 const Search = ({ navigation }) => {
@@ -66,7 +66,14 @@ const Search = ({ navigation }) => {
         <View style={{marginTop:10}}>
             
                 {
-                    filteredData.length == 0 && <Text style={{padding:20, alignSelf:'center', fontWeight:'bold', fontSize:18}}></Text>
+                    products.length == 0 && <View style={{flex:1, justifyContent:'center', alignItems:'center', marginTop:30 }}>
+                    <ActivityIndicator size='large'  color="#009999"/>
+                </View>
+                }
+                {
+                    filteredData.length == 0 && <View>
+                        <Text style={{alignSelf:'center'}}>No Items Matching Your Search Item</Text>
+                    </View>
                 }
                 {
                     filteredData.length !== 0 && filteredData.slice(0,7).map(product =>(
