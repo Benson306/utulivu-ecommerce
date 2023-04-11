@@ -8,6 +8,7 @@ import CartStack from './CartStack';
 import HomeStack from './HomeStack';
 import MyOrdersStack from './MyOrdersStack';
 import OrdersStack from './OrdersTabStack';
+import ProfileStack from './ProfileStack';
 
 export default function AppStack() {
     const Tab = createBottomTabNavigator();
@@ -68,9 +69,10 @@ export default function AppStack() {
           />
           <Tab.Screen 
             name="Profile"
-            component={Profile}
+            component={ProfileStack}
             options={{
               tabBarLabel: 'Profile',
+              headerShown: false,
               tabBarIcon: ({})=>(
                 <Ionicons name="person-circle-outline" size={30} color="#030c3b" />
               )

@@ -1,16 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import Home from '../screens/Home';
-import Preview from '../screens/Preview';
-import Search from '../screens/Search';
+import EditProfile from '../screens/EditProfile';
+import Profile from '../screens/Profile';
 
-export default function HomeStack() {
+export default function ProfileStack() {
     const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="ProfileHome">
         <Stack.Screen
-            name="Home"
-            component={Home}
+            name="ProfileHome"
+            component={Profile}
             options={{
                 headerShown: true,
                 headerStyle:{
@@ -21,13 +20,13 @@ export default function HomeStack() {
                     fontWeight:'bold',
                     alignSelf:'center'                  
                 },
-                headerTitle:'Utulivu Accessories',
+                headerTitle:'Profile',
                 headerTitleAlign:'center'
             }}
         />
         <Stack.Screen
-            name="Preview"
-            component={Preview}
+            name="ProfileEdit"
+            component={EditProfile}
             options={{
                 headerShown: true,
                 headerStyle:{
@@ -35,25 +34,10 @@ export default function HomeStack() {
                 },
                 headerTitleStyle:{
                     color:'#030c3b',
-                    fontWeight:'bold'
+                    fontWeight:'bold',
+                    alignSelf:'center'                  
                 },
-                headerTitle:'Preview Product',
-                headerTitleAlign:'center'
-            }}
-        />
-        <Stack.Screen
-            name="Search"
-            component={Search}
-            options={{
-                headerShown: true,
-                headerStyle:{
-                    backgroundColor:'#cfd6fc'
-                },
-                headerTitleStyle:{
-                    color:'#030c3b',
-                    fontWeight:'bold'
-                },
-                headerTitle:'Search',
+                headerTitle:'Edit Profile',
                 headerTitleAlign:'center'
             }}
         />
