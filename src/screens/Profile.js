@@ -84,7 +84,7 @@ export default function Profile({ navigation }) {
       
                     <Text style={styles.values}>{stars}</Text>
       
-                    <TouchableOpacity onPress={()=> navigation.navigate("ProfileEdit")} style={styles.button}>
+                    <TouchableOpacity onPress={()=> navigation.navigate("ProfileEdit", data)} style={styles.button}>
                         <Text style={styles.buttonText}>Edit Profile</Text>
                     </TouchableOpacity>
       

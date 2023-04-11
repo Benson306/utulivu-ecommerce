@@ -1,60 +1,56 @@
 import { Formik } from 'formik';
-import React, {useEffect, useState } from 'react'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { ActivityIndicator, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import ApiLink from '../utils/ApiLink';
 import * as yup from 'yup'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTogglePasswordVisibility } from '../utils/useTogglePasswordVisibility';
 
 const profileSchema = yup.object({
     name: yup.string().required().min(3),
     email: yup.string().email().required().min(3),
-    phone: yup.number().required().min(10),
+    phone: yup.string().required().length(10),
     password: yup.string().required().min(5),
 
 })
 
-export default function EditProfile(){
+export default function EditProfile({route, navigation}){
 
-    const [ data, setData ]=useState([]);
-    const [ loading, setLoading ] = useState(true);
-
-    let star = "*";
-    let stars = "";
-    const [passLength, setLength] = useState(null);
+    const { _id, email, name, password, phone } = route.params;
 
     const link = ApiLink();
 
+    const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
 
-    useEffect(()=>{
-        const abortCont = new AbortController();
-        fetch(`${link}/profile`,{
-            credentials: 'include', 
-            proxy: true, 
-            withCredentials: true,
-            signal: abortCont.signal
-        })
-        .then(res=>{
-            if(res.ok){
-                return res.json();
-            }else{
-                setLoading(false);
-            }
-        })
-        .then((res)=>{
-            setLoading(false);
-            setData(res);
-            setLength(res.password.length);
-        })
-        .catch((err)=>{
-            setLoading(false);
-        })
+    const [ loading, setLoading ] = useState(false);
 
+    const handleSubmit = (values) =>{
 
-        return ()=> abortCont.abort();
-    },[data])
+      const { name, email, phone, password } = values;
 
-    for(let i = 0; i<passLength; i++){
-        stars+=star;
-    }
+      setLoading(true);
+
+          fetch(`${link}/edit_profile`,{
+              credentials: 'include', 
+              proxy: true, 
+              withCredentials: true,
+              method: 'PUT',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({ name, email, phone, password })
+          })
+          .then((res)=>{
+              if(res.ok){
+                  setLoading(false);
+                  navigation.navigate('ProfileHome')
+              }else{
+                  setLoading(false);
+              }
+          })
+          .catch(err =>{
+              setLoading(false);
+          })
+
+      }
 
     return ( 
 
@@ -65,17 +61,13 @@ export default function EditProfile(){
         <View style={styles.card}>
           <Text style={{alignSelf:'center', fontSize:18, fontWeight:'bold'}}>Edit Account Details</Text>
 
-          { loading && 
-          
-                <View style={{marginTop:20,justifyContent:'center', alignItems:'center'}}>
-                    <ActivityIndicator size='large'  color="#009999"/>
-                </View>
-          }
-        
-          { !loading && 
           <Formik
-            initialValues={{ name: data.name, email: data.email, phone: data.phone, password: data.password}}
+            initialValues={{ name: name, email: email, phone: phone, password: password}}
             validationSchema={profileSchema}
+            onSubmit={((values, actions)=>{
+                Keyboard.dismiss();
+                handleSubmit(values);
+            })}
 
           >
             {(props)=>(
@@ -114,31 +106,53 @@ export default function EditProfile(){
                 onBlur={props.handleBlur('phone')}
                 blurOnSubmit={true}
                 autoCorrect={false}
+                keyboardType='numeric'
                 />
               <Text style={styles.errorText}>{props.touched.phone && props.errors.phone}</Text>
 
               <Text style={styles.labels}>Password:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder='Password'
-                value={props.values.password}
-                onChangeText={props.handleChange('password')}
-                onBlur={props.handleBlur('password')}
-                blurOnSubmit={true}
-                autoCorrect={false}
-                secureTextEntry={true}
-                />
-              <Text style={styles.errorText}>{props.touched.password && props.errors.password}</Text>
 
-              <TouchableOpacity onPress={()=> console.log('pressed')} style={styles.button}>
-                  <Text style={styles.buttonText}>Save Profile Details</Text>
-              </TouchableOpacity>
+              <View style={{flexDirection:'row', borderBottomWidth:1, padding:5, marginLeft:5}}>
+                  <TextInput
+                    style={styles.inputPass}
+                    placeholder='Password'
+                    value={props.values.password}
+                    onChangeText={props.handleChange('password')}
+                    onBlur={props.handleBlur('password')}
+                    blurOnSubmit={true}
+                    autoCorrect={false}
+                    secureTextEntry={passwordVisibility}
+                    />
+        
+                  <Pressable onPress={handlePasswordVisibility} >
+                    <MaterialCommunityIcons name={rightIcon} size={24} color="black" />
+                  </Pressable>
+                  
+              </View>
+
+              <Text style={styles.errorText}>{props.touched.password && props.errors.password}</Text>
+              
+                  
+                  
+                    <TouchableOpacity onPress={props.handleSubmit} style={styles.button}>
+                      {
+                        loading &&
+                        <View style={{justifyContent:'center', alignItems:'center', padding:10}}>
+                            <ActivityIndicator size='small'  color="white"/>
+                        </View>
+                      }
+                      { 
+                        !loading && 
+                          <Text style={styles.buttonText}>Save Profile Details</Text>
+
+                      }
+                    </TouchableOpacity>
+              
 
           </View> 
         
         )}
-            </Formik>
-        }
+          </Formik>
           
         </View>
       </View>
@@ -165,14 +179,14 @@ const styles = StyleSheet.create({
       alignSelf:'center'
     },
     labels:{
-     fontSize: 18,
-     padding: 8,
+     fontSize: 16,
+     padding: 5,
      color:'maroon',
      fontWeight:'bold'
     },
     values:{
       fontSize: 16,
-      padding: 8,
+      padding: 5,
       color:'black',
       marginLeft: 15
      },
@@ -206,6 +220,10 @@ const styles = StyleSheet.create({
       borderBottomWidth:1,
       padding:5,
       marginLeft:10
+    },
+    inputPass:{
+      marginLeft:10,
+      width: 250
     },
     errorText:{
       color:'red',
