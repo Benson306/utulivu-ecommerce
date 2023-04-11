@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
 import Home from '../screens/Home';
 import Orders from '../screens/Orders';
-import Profile from '../screens/Profile';
+import Profile from '../screens/EditProfile';
 import CartStack from './CartStack';
 import HomeStack from './HomeStack';
 import MyOrdersStack from './MyOrdersStack';
@@ -68,7 +68,7 @@ export default function AppStack() {
             }}
           />
           <Tab.Screen 
-            name="Profile"
+            name="ProfileStack"
             component={ProfileStack}
             options={{
               tabBarLabel: 'Profile',

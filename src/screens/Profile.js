@@ -1,7 +1,9 @@
+import { Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { AuthContext } from '../context/AuthContext';
 import ApiLink from '../utils/ApiLink';
+
 
 export default function Profile({ navigation }) {
 
@@ -63,36 +65,39 @@ export default function Profile({ navigation }) {
                 </View>
           }
         
-          { !loading && <View>
-              <Text style={styles.labels}>Full Name:</Text>
-
-              <Text style={styles.values}>{data.name}</Text>
-
-              <Text style={styles.labels}>Email:</Text>
-
-              <Text style={styles.values}>{data.email}</Text>
-
-              <Text style={styles.labels}>Phone Number:</Text>
-
-              <Text style={styles.values}>{data.phone}</Text>
-
-              <Text style={styles.labels}>Password:</Text>
-
-              <Text style={styles.values}>{stars}</Text>
-
-              <TouchableOpacity onPress={()=> navigation.navigate("ProfileEdit")} style={styles.button}>
-                  <Text style={styles.buttonText}>Edit Profile</Text>
-              </TouchableOpacity>
-
-          </View> }
+          { !loading && 
           
-        </View>
-      </View>
-        
-      <TouchableOpacity style={styles.signOut} onPress={()=>{logout()}}>
+                <View>
+                    <Text style={styles.labels}>Full Name:</Text>
+
+                    <Text style={styles.values}>{data.name}</Text>
+      
+                    <Text style={styles.labels}>Email:</Text>
+      
+                    <Text style={styles.values}>{data.email}</Text>
+      
+                    <Text style={styles.labels}>Phone Number:</Text>
+      
+                    <Text style={styles.values}>{data.phone}</Text>
+      
+                    <Text style={styles.labels}>Password:</Text>
+      
+                    <Text style={styles.values}>{stars}</Text>
+      
+                    <TouchableOpacity onPress={()=> navigation.navigate("ProfileEdit")} style={styles.button}>
+                        <Text style={styles.buttonText}>Edit Profile</Text>
+                    </TouchableOpacity>
+      
+                </View>
+             
+            }
+          </View>
+    </View>
+
+    <TouchableOpacity style={styles.signOut} onPress={()=>{logout()}}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
-    </View>
+  </View>
   )
 }
 
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
    fontWeight:'bold'
   },
   values:{
-    fontSize: 18,
+    fontSize: 16,
     padding: 8,
     color:'black',
     marginLeft: 15

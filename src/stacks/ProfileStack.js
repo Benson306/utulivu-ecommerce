@@ -1,15 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import EditProfile from '../screens/EditProfile';
-import Profile from '../screens/Profile';
+import EditProfile from '../screens/Profile';
+import Profile from '../screens/EditProfile';
 
 export default function ProfileStack() {
     const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="ProfileHome">
+    <Stack.Navigator initialRouteName='ProfileHome'>
         <Stack.Screen
             name="ProfileHome"
-            component={Profile}
+            component={EditProfile}
             options={{
                 headerShown: true,
                 headerStyle:{
@@ -26,7 +26,7 @@ export default function ProfileStack() {
         />
         <Stack.Screen
             name="ProfileEdit"
-            component={EditProfile}
+            component={Profile}
             options={{
                 headerShown: true,
                 headerStyle:{
